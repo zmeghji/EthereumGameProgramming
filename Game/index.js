@@ -134,13 +134,15 @@ function updateTimeLeft(){
 
     if (gameOver){
         if (!coinsSent){
-            let address = prompt("Please enter your ETH address", "")
-            if ( address == null || address ==""){
-                alert("User Cancelled Prompt")
-            }
-            else{
-                mintAfterGame(address, score);
-            }
+            // let address = prompt("Please enter your ETH address", "")
+            // let address =web3.eth.accounts[0];
+            // if ( address == null || address ==""){
+            //     alert("Cannot retrieve address from metamask")
+            // }
+            // else{
+            //     mintAfterGame(address, score);
+            // }
+            mintAfterGame( score);
             coinsSent = true;
         }
         return

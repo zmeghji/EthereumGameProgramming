@@ -1,4 +1,11 @@
-let web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:9545"));
+//truffle local
+// let web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:9545"));
+
+//metamask is the provider
+let web3 = new Web3(Web3.givenProvider);
+//metamask prompts user to accept
+window.ethereum.enable();
+
 var abi = [
     {
       "inputs": [],
@@ -295,12 +302,14 @@ var abi = [
     }
 ]
 
-var contract = new web3.eth.Contract(abi, "0x33d1546652C8151096d6b32566DB16534DF01018");
-  function mintAfterGame(address, nrOfTokens){
-      contract.methods.mint(address, nrOfTokens).send({from: address})
-      .on('receipt', receipt => {
-        alert("Transaction Complete");
-      })
-  }
+// var contract = new web3.eth.Contract(abi, "0x33d1546652C8151096d6b32566DB16534DF01018");
+var contract = new web3.eth.Contract(abi, "0x9799bDd21EcAf41505BC46AF438Bccd00fC2C5c9");
+async function mintAfterGame(nrOfTokens){
+    let userAddress = (await web3.eth.getAccounts())[0];
+    contract.methods.mint(userAddress, nrOfTokens).send({from: userAddress})
+    .on('receipt', receipt => {
+      alert("Transaction Complete");
+    })
+}
 
-  console.log(contract);
+console.log(contract);
