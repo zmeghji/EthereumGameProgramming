@@ -6,11 +6,12 @@ let crates;
 let score = 0;
 let scoreText;
 
-let secondsLeft = 60;
+let secondsLeft = 30;
 let timeLeftText;
 let timeLeftTimer;
 
 let gameOver = false;
+let coinsSent = false;
 
 let config = {
     width: 800,
@@ -130,13 +131,29 @@ function gameCreate(){
     
 }
 function updateTimeLeft(){
+
+    if (gameOver){
+        if (!coinsSent){
+            let address = prompt("Please enter your ETH address", "")
+            if ( address == null || address ==""){
+                alert("User Cancelled Prompt")
+            }
+            else{
+                mintAfterGame(address, score);
+            }
+            coinsSent = true;
+        }
+        return
+    }
+
     secondsLeft--;
     timeLeftText.setText(`${secondsLeft} seconds left`)
     if (secondsLeft ===0 ){
         this.physics.pause();
         gameOver = true;
-        
     }
+
+    
 }
 function generateCoins(){
     var coins = this.physics.add.group({
