@@ -13,6 +13,10 @@ let timeLeftTimer;
 let gameOver = false;
 let coinsSent = false;
 
+let COIN_GENERATION_RATE =1.5;
+let PLAYER_SPEED =300;
+let GAME_SECOND =1000;
+
 let config = {
     width: 800,
     height: 500,
@@ -104,14 +108,14 @@ function gameCreate(){
     })
 
     coinTimer = this.time.addEvent({
-        delay: Phaser.Math.Between( 1000, 3000),
+        delay: Phaser.Math.Between( 0, 3000/COIN_GENERATION_RATE),
         callback: generateCoins,
         callbackScope: this,
         repeat: -1
     })
 
     timeLeftTimer = this.time.addEvent({
-        delay: 1000,
+        delay: GAME_SECOND,
         callback: updateTimeLeft,
         callbackScope: this,
         repeat: -1
@@ -186,12 +190,12 @@ function gameUpdate(){
     //monitor inputs and update game
 
     if (cursors.left.isDown){
-        knight.setVelocityX(-200);
+        knight.setVelocityX(-PLAYER_SPEED);
         knight.play("knight_run", true);
         knight.flipX = true;
     }
     else if (cursors.right.isDown){
-        knight.setVelocityX(200);
+        knight.setVelocityX(PLAYER_SPEED);
         knight.play("knight_run", true);
         knight.flipX = false;
     }
@@ -206,5 +210,7 @@ function gameUpdate(){
     }
 }       
 
-let game = new Phaser.Game(config);
+getUserItems(function(){
+    let game = new Phaser.Game(config);
+})
 

@@ -1,315 +1,67 @@
-//truffle local
-// let web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:9545"));
-
 //metamask is the provider
 let web3 = new Web3(Web3.givenProvider);
 //metamask prompts user to accept
 window.ethereum.enable();
 
-var abi = [
-    {
-      "inputs": [],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "owner",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "spender",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "value",
-          "type": "uint256"
-        }
-      ],
-      "name": "Approval",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "value",
-          "type": "uint256"
-        }
-      ],
-      "name": "Transfer",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "owner",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "spender",
-          "type": "address"
-        }
-      ],
-      "name": "allowance",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "spender",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "approve",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        }
-      ],
-      "name": "balanceOf",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "decimals",
-      "outputs": [
-        {
-          "internalType": "uint8",
-          "name": "",
-          "type": "uint8"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "spender",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "subtractedValue",
-          "type": "uint256"
-        }
-      ],
-      "name": "decreaseAllowance",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "spender",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "addedValue",
-          "type": "uint256"
-        }
-      ],
-      "name": "increaseAllowance",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "name",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "symbol",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "totalSupply",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "recipient",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "transfer",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "sender",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "recipient",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "transferFrom",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "value",
-          "type": "uint256"
-        }
-      ],
-      "name": "mint",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    }
-]
+var gameTokenContract = new web3.eth.Contract(GameToken.abi, GameToken.networks[3].address);
+var powerUpContract = new web3.eth.Contract(PowerUp.abi, PowerUp.networks[3].address);
+var marketplaceContract = new web3.eth.Contract(Marketplace.abi, Marketplace.networks[3].address);
 
-// var contract = new web3.eth.Contract(abi, "0x33d1546652C8151096d6b32566DB16534DF01018");
-var contract = new web3.eth.Contract(abi, "0x9799bDd21EcAf41505BC46AF438Bccd00fC2C5c9");
 async function mintAfterGame(nrOfTokens){
     let userAddress = (await web3.eth.getAccounts())[0];
-    contract.methods.mint(userAddress, nrOfTokens).send({from: userAddress})
+    gameTokenContract.methods.mint(userAddress, nrOfTokens).send({from: userAddress})
     .on('receipt', receipt => {
       alert("Transaction Complete");
     })
 }
 
-console.log(contract);
+var powerUpContract = new web3.eth.Contract(PowerUp.abi, PowerUp.networks[3].address);
+
+function getUserItems(callback){
+  web3.eth.getAccounts().then(accountArray => {
+    var account = accountArray[0];
+
+    var tokenPromise1 = powerUpContract.methods.balanceOf(account, 1).call();
+    var tokenPromise2 = powerUpContract.methods.balanceOf(account, 2).call();
+    var tokenPromise3 = powerUpContract.methods.balanceOf(account, 3).call();
+
+    Promise.all([tokenPromise1, tokenPromise2, tokenPromise3]).then(values => {
+      let numberOfTalismans = values[0];
+      let numberOfBoots = values[1];
+      let numberOfCapes = values[2] ;
+
+      COIN_GENERATION_RATE += (numberOfTalismans*0.5)
+
+      GAME_SECOND += 1000*num
+
+      if(numberOfTalismans > 0)
+        COIN_GENERATION_RATE += (numberOfTalismans*0.5)
+      if(values[1] > 0)
+        PLAYER_SPEED *= Math.pow(1.3, numberOfBoots)
+      if(values[2] > 0)
+        GAME_SECOND *= Math.pow(1.5, GAME_SECOND)
+    })
+    callback();
+  });
+  
+}
+
+function buy(id){
+  web3.eth.getAccounts().then(accountArray => {
+    var options = {
+      from: accountArray[0],
+      value: 0
+    };
+    if(id == 1)
+      options.value = 100000000000000;
+    else if(id == 2)
+      options.value = 200000000000000;
+    else if(id == 3)
+      options.value = 300000000000000;
+
+    marketplaceContract.methods.buyTokens(id).send(options)
+    .on('receipt', receipt => {
+      alert("Transaction Complete");
+    })
+  });
+}
